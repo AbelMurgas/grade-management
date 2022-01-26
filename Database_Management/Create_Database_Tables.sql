@@ -1,0 +1,40 @@
+CREATE TABLE IF NOT EXISTS  student (
+	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+	name_user VARCHAR(50) NOT NULL,
+	passworD VARCHAR(15) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS subject (
+	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+	name VARCHAR(50) NOT NULL,
+	id_student INTEGER NOT NULL,
+	FOREIGN KEY (id_student) 
+      REFERENCES student (id) 
+         ON DELETE CASCADE 
+         ON UPDATE NO ACTION
+);
+
+CREATE TABLE IF NOT EXISTS evaluation (
+	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+	name VARCHAR(50) NOT NULL,
+	percentage REAL NOT NULL,
+	id_subject INTEGER NOT NULL,
+	FOREIGN KEY (id_subject) 
+      REFERENCES subject (id) 
+         ON DELETE CASCADE 
+         ON UPDATE NO ACTION
+);
+
+CREATE TABLE IF NOT EXISTS assignement (
+	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+	name VARCHAR(50) NOT NULL,
+	description TEXT DEFAULT "No Description" NOT NULL,
+	complete BOOLEAN NOT NULL CHECK (complete IN (0,1)),
+	max_points INTEGER NOT NULL,
+	points_earned INTEGER DEFAULT 0 NOT NULL,
+	id_evaluation INTEGER NOT NULL,
+	FOREIGN KEY (id_evaluation) 
+      REFERENCES evaluaction (id) 
+         ON DELETE CASCADE 
+         ON UPDATE NO ACTION
+);
