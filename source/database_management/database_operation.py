@@ -18,6 +18,17 @@ class Database:
         except Exception as e:
             print(e)
     
+    def execute_get_one(self, query):
+        self.cursor.execute(query)
+        try:
+            password = self.cursor.fetchone()[0]
+            return password
+        except:
+            return None
+        
+    def execute_insert_one(self, query):
+        self.cursor.execute(query)
+    
     def close(self):
         self.connection.close()
         
@@ -33,13 +44,7 @@ class Database:
         self.connection.close()
         
 
-    def execute_get_one(self, query):
-        self.cursor.execute(query)
-        try:
-            password = self.cursor.fetchone()[0]
-            return password
-        except:
-            return None
+
 
 
     
