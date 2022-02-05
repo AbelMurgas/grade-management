@@ -1,15 +1,19 @@
 import sqlite3
 from decouple import config
 import os
+
+
 class Database:
     __DB_LOCATION = config('DB_LOCATION')
+
     def __init__(self):
         if os.path.isfile(Database.__DB_LOCATION):
             self.connection = self.connect()
             self.cursor = self.connection.cursor()
         else:
-            raise FileNotFoundError(f"the dir {Database.__DB_LOCATION} no exist or not found")
-        
+            raise FileNotFoundError(
+                f"the dir {Database.__DB_LOCATION} no exist or not found")
+
     def connect(self):
         try:
             con = sqlite3.connect(Database.__DB_LOCATION)
@@ -17,7 +21,7 @@ class Database:
             return con
         except Exception as e:
             print(e)
-    
+
     def execute_get_one(self, query):
         self.cursor.execute(query)
         try:
@@ -25,16 +29,16 @@ class Database:
             return password
         except:
             return None
-        
-    def execute_insert_one(self, query):
+
+    def execute_one(self, query):
         self.cursor.execute(query)
-    
+
     def close(self):
         self.connection.close()
-        
+
     def commit(self):
         self.connection.commit()
-        
+
     def __exit__(self, ext_type, exc_value, traceback):
         self.cursor.close()
         if isinstance(exc_value, Exception):
@@ -42,11 +46,3 @@ class Database:
         else:
             self.connection.commit()
         self.connection.close()
-        
-
-
-
-
-    
-
-    
